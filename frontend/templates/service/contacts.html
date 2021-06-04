@@ -1,0 +1,55 @@
+{% extends "layouts/page.html" %}
+{% load static %}
+
+{% block content  %}
+<div class="contact-form">
+   <div class="container">
+      <div class="col-md-12 contact-left">
+         <h3>{{ config.SITE_NAME }}</h3>
+         <p>
+          {{ config.SITE_DESCRIPTION }}
+         </p>
+         <div class="address">
+            <div class=" address-grid">
+               <i class="glyphicon glyphicon-map-marker"></i>
+               <div class="address1">
+                  <h3>Адрес:</h3>
+                  <p>
+                    {{ config.ADDRESS }}
+                  </p>
+               </div>
+               <div class="clearfix"> </div>
+            </div>
+            <div class=" address-grid ">
+               <i class="glyphicon glyphicon-phone"></i>
+               <div class="address1">
+                  <h3>Контактный телефон:</h3>
+                  <h3>
+                     <p>{{ config.PRIMARY_PHONE }}</p>
+                  </h3>
+               </div>
+               <div class="clearfix"> </div>
+            </div>
+            <div class=" address-grid ">
+               <i class="glyphicon glyphicon-envelope"></i>
+               <div class="address1">
+                  <h3>Электронная Почта:</h3>
+                  <p><a href="mailto:{{ config.PRIMARY_EMAIL }}"> {{ config.PRIMARY_EMAIL }}</a></p>
+               </div>
+               <div class="clearfix"> </div>
+            </div>
+            <div class=" address-grid ">
+               <i class="glyphicon glyphicon-bell"></i>
+               <div class="address1">
+                  <h3>Рабочее время:</h3>
+                  <p>{{ config.WORKING_HOURS }}</p>
+               </div>
+               <div class="clearfix"> </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="clearfix"></div>
+   </div>
+</div>
+{% endblock %}

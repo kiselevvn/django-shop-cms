@@ -1,1 +1,1 @@
-# django-shop-cms
+# antique-store

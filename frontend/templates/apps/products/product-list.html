@@ -1,0 +1,211 @@
+{% extends "layouts/page.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="product">
+  <div class="container">
+
+    <div class="col-md-9">
+      {% if object_list %}
+      <div class="mid-popular">
+        {% for object in object_list %}
+          <div class="col-md-4 item-grid1 simpleCart_shelfItem">
+            <div class=" mid-pop">
+              <div class="pro-img">
+                  {% if object.pictures_card %}
+                    <img src="{{ object.pictures_card.image.url }}" class="img-responsive" alt="">
+                  {% else %}
+                    <img src="{% static 'images/none-img.png' %}" class="img-responsive" alt="">
+                  {% endif %}
+
+                  <div class="zoom-icon ">
+                    {% if object.pictures_card %}
+                      <a class="picture" href="{{ object.pictures_card.image.url }}" rel="title" class="b-link-stripe b-animate-go  thickbox"><i class="glyphicon glyphicon-search icon "></i></a>
+                    {% else %}
+                      <a class="picture" href="{% static 'images/none-img.png' %}" rel="title" class="b-link-stripe b-animate-go  thickbox"><i class="glyphicon glyphicon-search icon "></i></a>
+                    {% endif %}
+                    <a href="{% url 'product-detail' object.pk %}"><i class="glyphicon glyphicon-menu-right icon"></i></a>
+                  </div>
+              </div>
+              <div class="mid-1">
+                  <div class="women">
+                    <div class="women-top">
+                        {% comment %} <span>{{ object.short_description }}</span> {% endcomment %}
+                        <h6><a href="{% url 'product-detail' object.pk %}">{{ object.name }}</a></h6>
+                    </div>
+                    <div class="img item_add">
+                        {% if user.is_authenticated %}
+                          <img class="btn-add" data-product-id="{{ object.pk }}" src="{% static 'images/ca.png' %}" alt="">
+                        {% endif %}
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="mid-2">
+                    <p ><em class="item_price">{{ object.price }}</em></p>
+
+                    <div class="clearfix"></div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+          <div class="col-md-12 ">
+          <div class="custom-paginate">
+          {% if page_obj.has_previous %}
+              <a href="?page={{ page_obj.previous_page_number }}" class="btn" style="background-color:#F67777;color:white;">Назад</a>
+            {% endif %}
+            {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}" class="btn" style="background-color:#F67777;color:white;">Вперед</a>
+            {% endif %}
+          </div>
+
+          </div>
+        <div class="clearfix"></div>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="col-md-3 product-bottom">
+        <!--categories-->
+        {% if group_categories %}
+        <div class=" rsidebar span_1_of_left">
+          <h4 class="cate">Категории</h4>
+          <ul class="menu-drop">
+            {% for group in group_categories %}
+              <li class="item{{forloop.counter}}">
+                <a href="#">{{ group.name }}</a>
+                <ul class="cute">
+                  {% for category in group.categories.all %}
+                  <li class="subitem{{forloop.counter}}">
+                    <a href="{% url 'product-list' %}?category={{category.pk}}">
+                      {{ category.name }}
+                    </a>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+        <!--initiate accordion-->
+        <script type="text/javascript">
+          $(function() {
+              var menu_ul = $('.menu-drop > li > ul'),
+                      menu_a  = $('.menu-drop > li > a');
+              menu_ul.hide();
+              menu_a.click(function(e) {
+                  e.preventDefault();
+                  if(!$(this).hasClass('active')) {
+                      menu_a.removeClass('active');
+                      menu_ul.filter(':visible').slideUp('normal');
+                      $(this).addClass('active').next().stop(true,true).slideDown('normal');
+                  } else {
+                      $(this).removeClass('active');
+                      $(this).next().stop(true,true).slideUp('normal');
+                  }
+              });
+
+          });
+        </script>
+        <!--//menu-->
+        {% comment %} <section  class="sky-form">
+          <h4 class="cate">Discounts</h4>
+          <div class="row row1 scroll-pane">
+              <div class="col col-4">
+                <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>Upto - 10% (20)</label>
+              </div>
+              <div class="col col-4">
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>40% - 50% (5)</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>30% - 20% (7)</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>10% - 5% (2)</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Other(50)</label>
+              </div>
+          </div>
+        </section>
+        <!---->
+        <section  class="sky-form">
+          <h4 class="cate">Type</h4>
+          <div class="row row1 scroll-pane">
+              <div class="col col-4">
+                <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>Sofa Cum Beds (30)</label>
+              </div>
+              <div class="col col-4">
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Bags  (30)</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Caps & Hats (30)</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Jackets & Coats   (30)</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Jeans  (30)</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Shirts   (30)</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Sunglasses  (30)</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Swimwear  (30)</label>
+              </div>
+          </div>
+        </section>
+        <section  class="sky-form">
+          <h4 class="cate">Brand</h4>
+          <div class="row row1 scroll-pane">
+              <div class="col col-4">
+                <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>Roadstar</label>
+              </div>
+              <div class="col col-4">
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Levis</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Persol</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Nike</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Edwin</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox" ><i></i>New Balance</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Paul Smith</label>
+                <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Ray-Ban</label>
+              </div>
+          </div>
+        </section> {% endcomment %}
+    </div>
+
+    <div class="clearfix"></div>
+
+  </div>
+</div>
+
+ <script>
+    $(function() {
+      var addBtns = $(".btn-add");
+
+
+        addBtns.click(function(event){
+          var productId = event.target.dataset["productId"];
+          console.log(event.target);
+
+          Swal.fire({
+            title: 'Подтвердите добавление товара в корзину',
+            showCancelButton: true,
+            confirmButtonText: `Добавить`,
+            cancelButtonText: `Отмена`,
+            input: 'range',
+            inputAttributes: {
+              min: 1,
+              max: 30,
+              step: 1
+            },
+            inputLabel: 'Ведите количество товара',
+            inputValue: 1,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              axios({
+                method: 'post',
+                url: '/api/v1/cart/add-product-to-cart/',
+                data: { product: productId, count:result.value },
+                xsrfHeaderName: "X-CSRFToken"
+              })
+              .then((response)=>{
+                console.log(response.data);
+              });
+            };
+          });
+
+        });
+
+
+    });
+  </script>
+
+{% endblock %}

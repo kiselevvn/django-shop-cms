@@ -1,0 +1,155 @@
+{% extends "layouts/page.html" %}
+{% load static %}
+
+{% block content %}
+
+
+
+  <div class="check-out">
+    <div class="container">
+      <div class="bs-example4" data-example-id="simple-responsive-table">
+        <div class="table-responsive">
+          <table class="table-heading simpleCart_shelfItem">
+              <tbody>
+                <tr>
+                    <th class="table-grid">Товар</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                </tr>
+                {% for cart_position in user.products_in_cart.all %}
+                  <tr class="cart-header1">
+                    <td class="ring-in">
+                      <a href="single.html" class="at-in"><img src="images/ch2.jpg" class="img-responsive" alt=""></a>
+                      <div class="sed">
+                          <h5>
+                          <a href="single.html">
+                            {{ cart_position.product.name }}
+                          </a>
+                          </h5>
+                          <p>{{ cart_position.product.short_description }}</p>
+                      </div>
+                      <div class="clearfix"> </div>
+                      <div class="close2 destroy-product-btn" data-product-id="{{ cart_position.pk }}"> </div>
+                    </td>
+                    <td>{{ cart_position.product.price }}</td>
+                    <td class="item_price">{{ cart_position.count }}</td>
+                    <td class="add-check"><a class="item_add hvr-skew-backward update-count-btn" data-product-id="{{ cart_position.pk }}" href="#">Количество</a></td>
+                </tr>
+                {% empty %}
+                  <tr class="cart-header">
+                    <td colspan="5">
+                      Корзина пуста
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+          </table>
+          <textarea id="comment-text-area" name="comment" id="" cols="30" rows="5"></textarea>
+        </div>
+      </div>
+      <div class="produced">
+          <a id="create-order-btn" class="hvr-skew-backward">Оформить заказ на сумму {{ total }}</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(function() {
+      var commentInput = $("#comment-text-area"),
+          createOrderBtn = $("#create-order-btn"),
+          updateCountBtns = $(".update-count-btn"),
+          destroyProductBtns = $(".destroy-product-btn");
+
+      createOrderBtn.click(function(event){
+        var commentText = commentInput.value;
+        Swal.fire({
+            title: 'Подтвердите оформление товара',
+            showCancelButton: true,
+            confirmButtonText: `Оформить`,
+            cancelButtonText: `Отмена`,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              axios({
+                method: 'post',
+                url: '/api/v1/orders/create/',
+                data: { comment: commentText },
+                xsrfHeaderName: "X-CSRFToken"
+              })
+              .then((response)=>{
+                console.log(response.data);
+              });
+            };
+          });
+
+      });
+
+      updateCountBtns.click(function(event) {
+        var productId = event.target.dataset["productId"];
+        if(productId) {
+          axios({
+            method: 'get',
+            url: '/api/v1/cart/update-count-product/'+productId+'/',
+            xsrfHeaderName: "X-CSRFToken"
+          })
+          .then((response)=>{
+
+            Swal.fire({
+              title: 'Изменить количество',
+              showCancelButton: true,
+              confirmButtonText: `Обновить`,
+              cancelButtonText: `Удалть товар`,
+              input: 'range',
+              inputAttributes: {
+                min: 1,
+                max: 30,
+                step: 1
+              },
+              inputLabel: 'Ведите количество товара',
+              inputValue: response.data.count,
+            }).then((result) => {
+              console.log(result);
+              if (result.isConfirmed) {
+                axios({
+                  method: 'put',
+                  url: '/api/v1/cart/update-count-product/'+productId+'/',
+                  data: {count:result.value},
+                  xsrfHeaderName: "X-CSRFToken"
+                })
+                .then((response)=>{
+                  document.location.reload();
+                });
+              };
+            });
+
+          });
+        }
+      });
+
+      destroyProductBtns.click(function(event) {
+        var productId = event.target.dataset["productId"];
+        if(productId) {
+          Swal.fire({
+            title: 'Вы действительно хотите удалить товар из корзины?',
+            showCancelButton: true,
+            confirmButtonText: `Закрыть окно`,
+            cancelButtonText: `Удалть товар`,
+          }).then((result) => {
+            if (result.isDismissed) {
+              axios({
+                method: 'delete',
+                url: '/api/v1/cart/destroy-product-cart/'+productId+'/',
+                xsrfHeaderName: "X-CSRFToken"
+              })
+              .then((response)=>{
+                document.location.reload();
+              });
+            };
+          });
+      }
+
+
+    });
+    });
+  </script>
+
+{% endblock %}

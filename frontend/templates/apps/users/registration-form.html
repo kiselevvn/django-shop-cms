@@ -1,0 +1,51 @@
+{% extends "layouts/page.html" %}
+{% load static  %}
+
+{% block content  %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-md-6">
+      <div class="login">
+        {{errors}}
+        <form  method="POST" action="{% url "registration" %}">
+          {% csrf_token %}
+          <div class="login-mail">
+            <input name="last_name"  type="text" placeholder="Фамилия" required="">
+          </div>
+          <div class="login-mail">
+            <input name="first_name"  type="text" placeholder="Имя" required="">
+          </div>
+          <div class="login-mail">
+            <input name="second_name"  type="text" placeholder="Отчество">
+          </div>
+
+          <div class="login-mail">
+            <input name="phone" type="text" placeholder="Номер телефона" required="">
+            <i class="glyphicon glyphicon-phone"></i>
+          </div>
+
+          <div class="login-mail">
+            <input name="email" type="text" placeholder="Электронная почта" required="">
+            <i class="glyphicon glyphicon-envelope"></i>
+          </div>
+
+          <div class="login-mail">
+            <input name="password1" type="password" placeholder="Пароль" required="">
+            <i class="glyphicon glyphicon-lock"></i>
+          </div>
+          <div class="login-mail">
+            <input name="password2" type="password" placeholder="Повторите пароль" required="">
+            <i class="glyphicon glyphicon-lock"></i>
+          </div>
+
+          <label class="hvr-skew-backward">
+            <input type="submit" value="Регистрация">
+          </label>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "layouts/page-layout.html" %}
+{% load static %}
+
+{% block content  %}
+
+<div class="sp-area">
+  <div class="container">
+    <div class="sp-nav">
+      <div class="row">
+
+        {% if object.pictures.all %}
+          <div class="col-lg-5">
+            <div class="fotorama" data-nav="thumbs">
+              {% for picture in object.pictures.all %}
+                <img src="{{picture.image.url}}">
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        <div class="col-lg-7">
+          <div class="sp-content">
+            <div class="sp-heading">
+                <h5>
+                  {{ object.name }}
+                </h5>
+            </div>
+              <div class="sp-essential_stuff">
+                <ul>
+                    <li>{{ object.description }}</li>
+                    <li>Цена: <a href="javascript:void(0)">{{ object.price }}</a></li>
+                </ul>
+              </div>
+              <div class="quantity">
+                <label>Количество:</label>
+                <div class="cart-plus-minus">
+                  <input class="cart-plus-minus-box" value="1" type="text">
+                  <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
+                  <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
+                <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div><div class="inc qtybutton"><i class="fa fa-angle-up"></i></div></div>
+              </div>
+              <div class="qty-btn_area">
+                <ul>
+                  <li><a class="qty-cart_btn add-card-action" data-product-id="{{object.pk}}" href="javascript:void(0)">Добавить в корзину</a></li>
+                </ul>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
