@@ -4,11 +4,11 @@ CONSTANCE_CONFIG = {
         "Домен сайта",
         str,
     ),
-    "LOGO_TEXT": (
-        "Antique-Store",
-        "Текстовый логотип сайта",
-        str,
-    ),
+    # "LOGO_TEXT": (
+    #     "Antique-Store",
+    #     "Текстовый логотип сайта",
+    #     str,
+    # ),
     "SITE_NAME": (
         "Магазин",
         "Наименованиее сайта",
