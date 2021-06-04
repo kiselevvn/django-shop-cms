@@ -47,7 +47,7 @@
   </script>
   <link rel="stylesheet" href="{% static 'css/form.css' %}" type="text/css" media="screen" charset="utf-8" />
 
-  <title>{% block title %}Магазин{% endblock %}</title>
+  <title>{% block title %}{{ config.SITE_NAME }}{% endblock %}</title>
 </head>
 <body>
     {% header user %}
