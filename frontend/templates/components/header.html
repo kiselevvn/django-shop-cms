@@ -72,6 +72,7 @@
                       <li ><a class="color6" href="{% url 'contacts' %}">Контакты</a></li>
                       {% if user.is_authenticated %}
                         <li ><a class="color6" href="{% url 'cart' %}">Корзина</a></li>
+                        <li ><a class="color6" href="{% url 'user-orders' %}">Заказы</a></li>
                       {% endif %}
                   </ul>
                 </div>

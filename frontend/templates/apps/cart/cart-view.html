@@ -62,7 +62,8 @@
           destroyProductBtns = $(".destroy-product-btn");
 
       createOrderBtn.click(function(event){
-        var commentText = commentInput.value;
+        var commentText = commentInput.val();
+        console.log(commentText);
         Swal.fire({
             title: 'Подтвердите оформление товара',
             showCancelButton: true,
@@ -77,7 +78,7 @@
                 xsrfHeaderName: "X-CSRFToken"
               })
               .then((response)=>{
-                console.log(response.data);
+                document.location.reload();
               });
             };
           });
@@ -108,7 +109,6 @@
               inputLabel: 'Ведите количество товара',
               inputValue: response.data.count,
             }).then((result) => {
-              console.log(result);
               if (result.isConfirmed) {
                 axios({
                   method: 'put',

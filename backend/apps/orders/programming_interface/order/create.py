@@ -12,11 +12,9 @@ class OrderSerializer(ModelSerializer):
         ]
 
     def create(self, validated_data):
-        print(validated_data)
 
         comment = validated_data.pop("comment")
 
-        print(validated_data)
         user = self.context["request"].user
         if len(user.products_in_cart.all()) > 0:
             #
