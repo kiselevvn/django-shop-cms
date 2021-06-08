@@ -25,6 +25,7 @@ urlpatterns = [
     path("", include("apps.products.urls")),
     path("cart/", include("apps.cart.urls")),
     path("users/", include("apps.users.urls")),
+    path("orders/", include("apps.orders.urls")),
     # path("", TemplateView.as_view(template_name="home.html"), name="home"),
     path(
         "api/v1/",
