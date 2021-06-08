@@ -596,6 +596,7 @@ a.buy-now:hover{
     height: 250px;
     display: block;
     background: url(../images/back.jpg)no-repeat ;
+    background-size: cover;
 	padding:5em 0;
 }
 .banner-top h1{

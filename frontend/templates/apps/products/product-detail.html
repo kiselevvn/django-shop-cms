@@ -1,53 +1,126 @@
-{% extends "layouts/page-layout.html" %}
+{% extends "layouts/page.html" %}
 {% load static %}
 
 {% block content  %}
 
-<div class="sp-area">
+{% comment %} {% include "components/banner-top.html" with title="505" %} {% endcomment %}
+
+<div class="single">
   <div class="container">
-    <div class="sp-nav">
-      <div class="row">
+      <div class="col-md-9">
+         <div class="col-md-5 grid">
+            {% if object.pictures.all %}
+              <div class="fotorama" data-nav="thumbs">
+                {% for picture in object.pictures.all %}
+                  <img src="{{picture.image.url}}">
+                {% endfor %}
+              </div>
+            {% else %}
+              <img src="{% static 'images/none-img.png' %}" class="img-responsive" alt="">
+            {% endif %}
+         </div>
+         <div class="col-md-7 single-top-in">
+            <div class="span_2_of_a1 simpleCart_shelfItem">
+               <h3>{{ object.name }}</h3>
+               {% if object.category %}
+                <p class="in-para">{{ object.category.name }}</p>
+               {% endif %}
+               <div class="price_single">
+                  <span class="reducedfrom item_price">{{ object.price }} Руб.</span>
+                  {% comment %} <a href="#">click for offer</a> {% endcomment %}
+                  <div class="clearfix"></div>
+               </div>
+               <h4 class="quick">Описание товара:</h4>
+               <p class="quick_desc">{{ object.description }}</p>
+               {% comment %} <div class="wish-list">
+                  <ul>
+                     <li class="wish"><a href="#"><span class="glyphicon glyphicon-check" aria-hidden="true"></span>Add to Wishlist</a></li>
+                     <li class="compare"><a href="#"><span class="glyphicon glyphicon-resize-horizontal" aria-hidden="true"></span>Add to Compare</a></li>
+                  </ul>
+               </div> {% endcomment %}
+               {% comment %} <div class="quantity">
+                  <div class="quantity-select">
+                     <div class="entry value-minus">&nbsp;</div>
+                     <div class="entry value"><span>1</span></div>
+                     <div class="entry value-plus active">&nbsp;</div>
+                  </div>
+               </div> {% endcomment %}
+               <!--quantity-->
+               {% comment %} <script>
+                  $('.value-plus').on('click', function(){
+                  	var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)+1;
+                  	divUpd.text(newVal);
+                  });
 
-        {% if object.pictures.all %}
-          <div class="col-lg-5">
-            <div class="fotorama" data-nav="thumbs">
-              {% for picture in object.pictures.all %}
-                <img src="{{picture.image.url}}">
-              {% endfor %}
+                  $('.value-minus').on('click', function(){
+                  	var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)-1;
+                  	if(newVal>=1) divUpd.text(newVal);
+                  });
+               </script> {% endcomment %}
+               <!--quantity-->
+               {% if user.is_authenticated %}
+                <a href="#" class="btn-add add-to item_add hvr-skew-backward" data-product-id="{{ object.pk }}">Добавить в корзину</a>
+                {% endif %}
+               <div class="clearfix"> </div>
             </div>
-          </div>
-        {% endif %}
-
-        <div class="col-lg-7">
-          <div class="sp-content">
-            <div class="sp-heading">
-                <h5>
-                  {{ object.name }}
-                </h5>
-            </div>
-              <div class="sp-essential_stuff">
-                <ul>
-                    <li>{{ object.description }}</li>
-                    <li>Цена: <a href="javascript:void(0)">{{ object.price }}</a></li>
-                </ul>
-              </div>
-              <div class="quantity">
-                <label>Количество:</label>
-                <div class="cart-plus-minus">
-                  <input class="cart-plus-minus-box" value="1" type="text">
-                  <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                  <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
-                <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div><div class="inc qtybutton"><i class="fa fa-angle-up"></i></div></div>
-              </div>
-              <div class="qty-btn_area">
-                <ul>
-                  <li><a class="qty-cart_btn add-card-action" data-product-id="{{object.pk}}" href="javascript:void(0)">Добавить в корзину</a></li>
-                </ul>
-              </div>
-          </div>
-        </div>
+         </div>
+         <div class="clearfix"> </div>
       </div>
-    </div>
+      <div class="col-md-3 product-bottom product-at">
+         <!--categories-->
+         <div class=" rsidebar span_1_of_left">
+            <h4 class="cate">Categories</h4>
+            <ul class="menu-drop">
+               <li class="item1">
+                  <a href="#">Men </a>
+                  <ul class="cute" style="display: none;">
+                     <li class="subitem1"><a href="product.html">Cute Kittens </a></li>
+                     <li class="subitem2"><a href="product.html">Strange Stuff </a></li>
+                     <li class="subitem3"><a href="product.html">Automatic Fails </a></li>
+                  </ul>
+               </li>
+               <li class="item2">
+                  <a href="#">Women </a>
+                  <ul class="cute" style="display: none;">
+                     <li class="subitem1"><a href="product.html">Cute Kittens </a></li>
+                     <li class="subitem2"><a href="product.html">Strange Stuff </a></li>
+                     <li class="subitem3"><a href="product.html">Automatic Fails </a></li>
+                  </ul>
+               </li>
+               <li class="item3">
+                  <a href="#">Kids</a>
+                  <ul class="cute" style="display: none;">
+                     <li class="subitem1"><a href="product.html">Cute Kittens </a></li>
+                     <li class="subitem2"><a href="product.html">Strange Stuff </a></li>
+                     <li class="subitem3"><a href="product.html">Automatic Fails</a></li>
+                  </ul>
+               </li>
+               <li class="item4">
+                  <a href="#">Accessories</a>
+                  <ul class="cute" style="display: none;">
+                     <li class="subitem1"><a href="product.html">Cute Kittens </a></li>
+                     <li class="subitem2"><a href="product.html">Strange Stuff </a></li>
+                     <li class="subitem3"><a href="product.html">Automatic Fails</a></li>
+                  </ul>
+               </li>
+               <li class="item4">
+                  <a href="#">Shoes</a>
+                  <ul class="cute" style="display: none;">
+                     <li class="subitem1"><a href="product.html">Cute Kittens </a></li>
+                     <li class="subitem2"><a href="product.html">Strange Stuff </a></li>
+                     <li class="subitem3"><a href="product.html">Automatic Fails </a></li>
+                  </ul>
+               </li>
+            </ul>
+         </div>
+         <!--initiate accordion-->
+
+      </div>
+    <div class="clearfix"> </div>
   </div>
 </div>
+
 {% endblock %}
+
+
+
