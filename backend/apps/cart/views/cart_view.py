@@ -8,6 +8,6 @@ class CartView(TemplateView):
         context = super().get_context_data(**kwargs)
         total = 0
         for cart_position in self.request.user.products_in_cart.all():
-            total = cart_position.product.price * cart_position.count
+            total = total + cart_position.product.price * cart_position.count
         context["total"] = total
         return context
