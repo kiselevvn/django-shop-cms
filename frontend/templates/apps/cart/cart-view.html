@@ -20,10 +20,17 @@
                 {% for cart_position in user.products_in_cart.all %}
                   <tr class="cart-header1">
                     <td class="ring-in">
-                      <a href="single.html" class="at-in"><img src="images/ch2.jpg" class="img-responsive" alt=""></a>
+                      <a href="{% url 'product-detail' cart_position.product.pk %}" class="at-in">
+                        {% if cart_position.product.pictures_card %}
+                          <img src="{{ cart_position.product.pictures_card.image.url }}" class="img-responsive" alt="">
+                        {% else %}
+                          <img src="{% static 'images/none-img.png' %}" class="img-responsive" alt="">
+                        {% endif %}
+
+                      </a>
                       <div class="sed">
                           <h5>
-                          <a href="single.html">
+                          <a href="{% url 'product-detail' cart_position.product.pk %}">
                             {{ cart_position.product.name }}
                           </a>
                           </h5>
